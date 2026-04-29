@@ -1,0 +1,9 @@
+export { StudentDetails } from './StudentDetails';
+export { StudentAdmission } from './StudentAdmission';
+export { OnlineAdmission } from './OnlineAdmission';
+export { DisabledStudents } from './DisabledStudents';
+export { MultiClassStudent } from './MultiClassStudent';
+export { BulkDelete } from './BulkDelete';
+export { StudentCategories } from './StudentCategories';
+export { StudentHouse } from './StudentHouse';
+export { DisableReason } from './DisableReason';
