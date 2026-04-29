@@ -48,8 +48,9 @@ export default function Dashboard() {
       name: 'Student Information',
       icon: Icons.Users,
       subItems: [
-        'Student Details',
+        'Student Registration',
         'Student Admission',
+        'Student Details',
         'Online Admission',
         'Disabled Students',
         'Multi Class Student',
@@ -157,8 +158,9 @@ export default function Dashboard() {
       case 'Setup Front Office': return <FrontOfficePages.SetupFrontOffice />;
 
       // Student Information
-      case 'Student Details': return <StudentInformationPages.StudentDetails />;
+      case 'Student Registration': return <StudentInformationPages.StudentRegistration />;
       case 'Student Admission': return <StudentInformationPages.StudentAdmission />;
+      case 'Student Details': return <StudentInformationPages.StudentDetails />;
       case 'Online Admission': return <StudentInformationPages.OnlineAdmission />;
       case 'Disabled Students': return <StudentInformationPages.DisabledStudents />;
       case 'Multi Class Student': return <StudentInformationPages.MultiClassStudent />;

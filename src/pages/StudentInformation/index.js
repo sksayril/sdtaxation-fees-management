@@ -1,3 +1,4 @@
+export { StudentRegistration } from './StudentRegistration';
 export { StudentDetails } from './StudentDetails';
 export { StudentAdmission } from './StudentAdmission';
 export { OnlineAdmission } from './OnlineAdmission';
