@@ -45,7 +45,7 @@ export default function Dashboard() {
       ]
     },
     {
-      name: 'Student Information',
+      name: 'Student Regitstration',
       icon: Icons.Users,
       subItems: [
         'Student Registration',
@@ -104,10 +104,14 @@ export default function Dashboard() {
       name: 'Accounts',
       icon: Icons.Building,
       subItems: [
-        'Add Income',
+        'Student Income',
         'Add Expense',
         'Contra',
-        'Journal Entry'
+        'Journal Entry',
+        'Debit Note',
+        'Credit Note',
+        'Sales',
+        'Purchase'
       ]
     },
     { name: 'QR Code Attendance', icon: Icons.CheckSquare, subItems: ['QR Attendance'] },
@@ -198,7 +202,7 @@ export default function Dashboard() {
       case 'Setting': return <BehaviourRecordsPages.BehaviourSetting />;
 
       // Income
-      case 'Add Income': return <IncomePages.AddIncome />;
+      case 'Student Income': return <IncomePages.AddIncome />;
       case 'Search Income': return <IncomePages.SearchIncome />;
       case 'Income Head': return <IncomePages.IncomeHead />;
 
@@ -207,9 +211,13 @@ export default function Dashboard() {
       case 'Search Expense': return <ExpensePages.SearchExpense />;
       case 'Expense Head': return <ExpensePages.ExpenseHead />;
 
-      // Accounts (Contra & Journal Entry)
+      // Accounts (Contra & Journal Entry, Notes, Sales, Purchase)
       case 'Contra': return <AccountsPages.Contra />;
       case 'Journal Entry': return <AccountsPages.JournalEntry />;
+      case 'Debit Note': return <AccountsPages.DebitNote />;
+      case 'Credit Note': return <AccountsPages.CreditNote />;
+      case 'Sales': return <AccountsPages.Sales />;
+      case 'Purchase': return <AccountsPages.Purchase />;
 
       // CBSE Examination
       case 'Exam': return <CBSEExaminationPages.CBSEExam />;

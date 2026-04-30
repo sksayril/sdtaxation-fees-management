@@ -26,7 +26,7 @@ export function Contra() {
 
   return (
     <div className="flex flex-col h-screen bg-[#f3f4f6]">
-      <div className="bg-[#e4f0d8] border-b border-gray-400 shadow-2xl font-sans text-black flex flex-col h-full w-full">
+      <div className="bg-[#53EAFD] border-b border-gray-400 shadow-2xl font-sans text-black flex flex-col h-full w-full">
         
         {/* Top Header Bar */}
         <div className="bg-[#3e7e7b] text-[#e4f0d8] px-2 py-1 flex justify-between items-center text-[13px] font-semibold border-b border-gray-500">
@@ -43,14 +43,18 @@ export function Contra() {
           <div className="flex justify-between items-start">
             <div className="flex items-center gap-4">
               <div className="bg-[#4a69bd] text-white px-8 py-0.5 text-[14px] font-bold shadow-sm uppercase">Contra</div>
-              <div className="text-[14px] font-bold flex items-center gap-2">
-                <span>No.</span>
-                <input 
-                  type="text" 
-                  value={receiptNo}
-                  onChange={(e) => setReceiptNo(e.target.value)}
-                  className="bg-transparent border-b border-transparent hover:border-gray-500 outline-none w-16 text-black font-black focus:bg-white/30 px-1"
-                />
+              <div className="flex items-center shadow-sm">
+                <div className="bg-gray-100 border border-gray-400 border-r-0 px-3 py-1 text-[12px] font-bold text-gray-600 rounded-l-sm uppercase">
+                  No.
+                </div>
+                <div className="bg-white border border-gray-400 px-3 py-1 rounded-r-sm flex items-center min-w-[80px]">
+                  <input 
+                    type="text" 
+                    value={receiptNo}
+                    onChange={(e) => setReceiptNo(e.target.value)}
+                    className="bg-transparent outline-none w-full text-black font-black text-[14px]"
+                  />
+                </div>
               </div>
             </div>
             <div className="text-right leading-tight font-bold text-[14px] relative group">
@@ -60,28 +64,32 @@ export function Contra() {
                 onChange={(e) => setDate(e.target.value)}
                 className="absolute inset-0 opacity-0 cursor-pointer z-10"
               />
-              <div className="hover:bg-black/5 rounded px-1 transition-colors flex items-center gap-2">
-                <div>
-                  <div className="text-[#3e7e7b] group-hover:text-black">{formatTallyDate(date)}</div>
-                  <div className="text-[12px] font-normal text-gray-600">{getDayName(date)}</div>
+              <div className="bg-white border border-gray-400 shadow-sm rounded-sm px-3 py-1 flex items-center gap-3 group-hover:border-gray-600 transition-colors">
+                <div className="text-left">
+                  <div className="text-[#3e7e7b] font-black text-[15px] leading-none">{formatTallyDate(date)}</div>
+                  <div className="text-[11px] font-bold text-gray-500 uppercase mt-0.5">{getDayName(date)}</div>
                 </div>
-                <Icons.Calendar className="w-4 h-4 text-[#3e7e7b] opacity-60" />
+                <Icons.Calendar className="w-4 h-4 text-[#3e7e7b] opacity-70" />
               </div>
             </div>
           </div>
 
           <div className="mt-4 flex flex-col gap-1">
-            <div className="flex items-center gap-2 text-[14px] font-bold">
-              <span className="w-20 pl-4">Account :</span>
-              <select 
-                value={account}
-                onChange={(e) => setAccount(e.target.value)}
-                className="bg-black text-[#e4f0d8] px-2 py-0.5 outline-none w-64 border border-gray-600 focus:bg-[#222]"
-              >
-                <option value="CASH">CASH</option>
-                <option value="BANK (HDFC)">BANK (HDFC)</option>
-                <option value="BANK (SBI)">BANK (SBI)</option>
-              </select>
+            <div className="flex items-center shadow-sm">
+              <div className="bg-gray-100 border border-gray-400 border-r-0 px-3 py-1 text-[12px] font-bold text-gray-600 rounded-l-sm uppercase min-w-[140px]">
+                Account :
+              </div>
+              <div className="bg-white border border-gray-400 px-3 py-1 rounded-r-sm flex items-center min-w-[264px]">
+                <select 
+                  value={account}
+                  onChange={(e) => setAccount(e.target.value)}
+                  className="bg-transparent outline-none w-full text-black font-black text-[14px] cursor-pointer"
+                >
+                  <option value="CASH">CASH</option>
+                  <option value="BANK (HDFC)">BANK (HDFC)</option>
+                  <option value="BANK (SBI)">BANK (SBI)</option>
+                </select>
+              </div>
             </div>
             <div className="flex items-center gap-2 text-[12px] text-gray-700 italic">
               <span className="w-20 pl-4">Cur Bal :</span>
