@@ -21,20 +21,20 @@ export function AddIncome() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f3f4f6] font-sans">
-      {/* Blue Header */}
-      <div className="bg-[#2f55d4] text-white px-4 py-2 flex justify-between items-center text-[14px] font-bold">
-        <span>ACCOUNTING VOUCHER CREATION</span>
+      {/* Colored Header */}
+      <div className="bg-[#5EE9B5] text-gray-800 px-4 py-2 flex justify-between items-center text-[14px] font-bold border-b border-gray-300">
+        <span>ACCOUNTING VOUCHER CREATION (RECEIPT)</span>
         <span>Mansarovar the school betul (2025-26)</span>
       </div>
 
       <div className="p-6 flex flex-col gap-4">
-        {/* Top Controls Container */}
-        <div className="bg-[#5EE9B5] p-6 rounded-sm shadow-sm flex flex-col gap-4">
+        {/* Top Controls Container - White Box Design */}
+        <div className="bg-white p-6 rounded-sm shadow-sm flex flex-col gap-4 border border-gray-200">
           <div className="flex justify-between items-start">
             <div className="flex flex-col gap-3">
               {/* Receipt No Row */}
               <div className="flex items-center gap-2">
-                <div className="bg-[#2f55d4] text-white px-6 py-1.5 rounded-sm text-[13px] font-bold w-32 text-center italic">
+                <div className="bg-[#5EE9B5] text-gray-800 px-6 py-1.5 rounded-sm text-[13px] font-bold w-32 text-center italic border border-gray-200">
                   Receipt No.
                 </div>
                 <div className="bg-white border border-gray-300 rounded-sm px-3 py-1.5 flex items-center justify-between min-w-[200px]">
@@ -50,7 +50,7 @@ export function AddIncome() {
 
               {/* Payment Type Row */}
               <div className="flex items-center gap-2">
-                <div className="bg-[#2f55d4] text-white px-6 py-1.5 rounded-sm text-[13px] font-bold w-32 text-center italic">
+                <div className="bg-[#5EE9B5] text-gray-800 px-6 py-1.5 rounded-sm text-[13px] font-bold w-32 text-center italic border border-gray-200">
                   Payment Type
                 </div>
                 <div className="bg-white border border-gray-300 rounded-sm px-3 py-1.5 flex items-center justify-between min-w-[200px]">
@@ -69,7 +69,7 @@ export function AddIncome() {
 
             {/* Date Row */}
             <div className="flex items-center gap-2">
-              <div className="bg-[#2f55d4] text-white px-8 py-1.5 rounded-sm text-[13px] font-bold italic">
+              <div className="bg-[#5EE9B5] text-gray-800 px-8 py-1.5 rounded-sm text-[13px] font-bold italic border border-gray-200">
                 Date
               </div>
               <div className="bg-white border border-gray-300 rounded-sm px-3 py-1.5 flex items-center gap-4 min-w-[180px] relative">
@@ -80,7 +80,7 @@ export function AddIncome() {
                   className="absolute inset-0 opacity-0 cursor-pointer"
                 />
                 <span className="text-sm font-semibold">{formatTallyDate(date)}</span>
-                <Icons.Calendar className="w-4 h-4 text-[#2f55d4]" />
+                <Icons.Calendar className="w-4 h-4 text-gray-600" />
               </div>
             </div>
           </div>
@@ -161,8 +161,8 @@ export function AddIncome() {
           <button className="bg-white border border-gray-300 text-gray-700 px-6 py-2 rounded-sm font-bold text-sm hover:bg-gray-50 transition shadow-sm">
             Cancel
           </button>
-          <button className="bg-[#2f55d4] text-white px-8 py-2 rounded-sm font-bold text-sm hover:bg-blue-700 transition shadow-md">
-            Save Voucher
+          <button className="bg-[#5EE9B5] text-gray-800 px-8 py-2 rounded-sm font-bold text-sm hover:bg-[#4ddba3] transition shadow-md border border-gray-200">
+            Save Receipt Voucher
           </button>
         </div>
       </div>

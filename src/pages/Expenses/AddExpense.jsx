@@ -21,20 +21,20 @@ export function AddExpense() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f3f4f6] font-sans">
-      {/* Blue Header */}
-      <div className="bg-[#2f55d4] text-white px-4 py-2 flex justify-between items-center text-[14px] font-bold">
+      {/* Colored Header */}
+      <div className="bg-[#51A2FF] text-white px-4 py-2 flex justify-between items-center text-[14px] font-bold border-b border-gray-300">
         <span>ACCOUNTING VOUCHER CREATION (PAYMENT)</span>
         <span>Mansarovar the school betul (2025-26)</span>
       </div>
 
       <div className="p-6 flex flex-col gap-4">
-        {/* Top Controls Container */}
-        <div className="bg-[#51A2FF] p-6 rounded-sm shadow-sm flex flex-col gap-4">
+        {/* Top Controls Container - White Box Design */}
+        <div className="bg-white p-6 rounded-sm shadow-sm flex flex-col gap-4 border border-gray-200">
           <div className="flex justify-between items-start">
             <div className="flex flex-col gap-3">
               {/* Voucher No Row */}
               <div className="flex items-center gap-2">
-                <div className="bg-[#2f55d4] text-white px-6 py-1.5 rounded-sm text-[13px] font-bold w-32 text-center italic">
+                <div className="bg-[#51A2FF] text-white px-6 py-1.5 rounded-sm text-[13px] font-bold w-32 text-center italic">
                   Voucher No.
                 </div>
                 <div className="bg-white border border-gray-300 rounded-sm px-3 py-1.5 flex items-center justify-between min-w-[200px]">
@@ -50,7 +50,7 @@ export function AddExpense() {
 
               {/* Account Row */}
               <div className="flex items-center gap-2">
-                <div className="bg-[#2f55d4] text-white px-6 py-1.5 rounded-sm text-[13px] font-bold w-32 text-center italic">
+                <div className="bg-[#51A2FF] text-white px-6 py-1.5 rounded-sm text-[13px] font-bold w-32 text-center italic">
                   Account
                 </div>
                 <div className="bg-white border border-gray-300 rounded-sm px-3 py-1.5 flex items-center justify-between min-w-[200px]">
@@ -70,7 +70,7 @@ export function AddExpense() {
 
             {/* Date Row */}
             <div className="flex items-center gap-2">
-              <div className="bg-[#2f55d4] text-white px-8 py-1.5 rounded-sm text-[13px] font-bold italic">
+              <div className="bg-[#51A2FF] text-white px-8 py-1.5 rounded-sm text-[13px] font-bold italic">
                 Date
               </div>
               <div className="bg-white border border-gray-300 rounded-sm px-3 py-1.5 flex items-center gap-4 min-w-[180px] relative">
@@ -81,7 +81,7 @@ export function AddExpense() {
                   className="absolute inset-0 opacity-0 cursor-pointer"
                 />
                 <span className="text-sm font-semibold">{formatTallyDate(date)}</span>
-                <Icons.Calendar className="w-4 h-4 text-[#2f55d4]" />
+                <Icons.Calendar className="w-4 h-4 text-gray-500" />
               </div>
             </div>
           </div>
@@ -162,7 +162,7 @@ export function AddExpense() {
           <button className="bg-white border border-gray-300 text-gray-700 px-6 py-2 rounded-sm font-bold text-sm hover:bg-gray-50 transition shadow-sm">
             Cancel
           </button>
-          <button className="bg-[#2f55d4] text-white px-8 py-2 rounded-sm font-bold text-sm hover:bg-blue-700 transition shadow-md">
+          <button className="bg-[#51A2FF] text-white px-8 py-2 rounded-sm font-bold text-sm hover:bg-[#3b8ae6] transition shadow-md">
             Save Payment Voucher
           </button>
         </div>
