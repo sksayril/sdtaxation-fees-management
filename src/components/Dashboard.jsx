@@ -208,7 +208,7 @@ export default function Dashboard() {
       case 'Setting': return <BehaviourRecordsPages.BehaviourSetting />;
 
       // Income
-      case 'Student Income': return <IncomePages.AddIncome />;
+      case 'Add Income': return <IncomePages.AddIncome />;
       case 'Search Income': return <IncomePages.SearchIncome />;
       case 'Income Head': return <IncomePages.IncomeHead />;
 
