@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
+import { ThemeProvider } from './context/ThemeContext';
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
@@ -13,12 +14,12 @@ export default function App() {
   };
 
   return (
-    <>
+    <ThemeProvider>
       {isLoggedIn ? (
         <Dashboard />
       ) : (
         <Login onLogin={handleLogin} />
       )}
-    </>
+    </ThemeProvider>
   );
 }

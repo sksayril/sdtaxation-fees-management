@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Icons } from './Icons';
+import { useTheme } from '../context/ThemeContext';
 import * as FrontOfficePages from '../pages/FrontOffice/index';
 import * as StudentInformationPages from '../pages/StudentInformation/index';
 import * as FeesCollectionPages from '../pages/FeesCollection/index';
@@ -9,10 +10,12 @@ import * as IncomePages from '../pages/Income/index';
 import * as ExpensePages from '../pages/Expenses/index';
 import * as AccountsPages from '../pages/Accounts/index';
 import * as CBSEExaminationPages from '../pages/CBSEExamination/index';
+import * as SystemSettingsPages from '../pages/SystemSettings/index';
 
 export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activePage, setActivePage] = useState('Dashboard Overview');
+  const { themeData } = useTheme();
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -45,12 +48,12 @@ export default function Dashboard() {
       ]
     },
     {
-      name: 'Student Regitstration',
+      name: 'Student Management',
       icon: Icons.Users,
       subItems: [
         'Student Registration',
         'Student Admission',
-        'Student Details',
+        'Student Profile',
         'Online Admission',
         'Disabled Students',
         'Multi Class Student',
@@ -78,6 +81,24 @@ export default function Dashboard() {
       ]
     },
     {
+      name: 'Accounts',
+      icon: Icons.Building,
+      subItems: [
+        'Add Income',
+        'Add Expense',
+        'Contra',
+        'Journal Entry',
+        'Debit Note',
+        'Credit Note',
+        'Sales',
+        'Purchase'
+      ]
+    },
+    { name: 'Transport', icon: Icons.Building, subItems: ['Routes'] },
+
+    { name: 'Academics', icon: Icons.Briefcase, subItems: ['Class Timetable'] },
+
+    {
       name: 'Online Course',
       icon: Icons.FileText,
       subItems: [
@@ -100,20 +121,7 @@ export default function Dashboard() {
         'Setting'
       ]
     },
-    {
-      name: 'Accounts',
-      icon: Icons.Building,
-      subItems: [
-        'Student Income',
-        'Add Expense',
-        'Contra',
-        'Journal Entry',
-        'Debit Note',
-        'Credit Note',
-        'Sales',
-        'Purchase'
-      ]
-    },
+
     { name: 'QR Code Attendance', icon: Icons.CheckSquare, subItems: ['QR Attendance'] },
     {
       name: 'CBSE Examination',
@@ -131,7 +139,6 @@ export default function Dashboard() {
     { name: 'Examinations', icon: Icons.FileText, subItems: ['Exam Group', 'Exam Result'] },
     { name: 'Attendance', icon: Icons.Calendar, subItems: ['Student Attendance'] },
     { name: 'Online Examinations', icon: Icons.FileText, subItems: ['Online Exam'] },
-    { name: 'Academics', icon: Icons.Briefcase, subItems: ['Class Timetable'] },
     { name: 'Annual Calendar', icon: Icons.Calendar, subItems: ['Calendar'] },
     { name: 'Lesson Plan', icon: Icons.FileText, subItems: ['Manage Lesson Plan'] },
     { name: 'Human Resource', icon: Icons.Users, subItems: ['Staff Directory'] },
@@ -141,13 +148,12 @@ export default function Dashboard() {
     { name: 'Library', icon: Icons.Briefcase, subItems: ['Book List'] },
     { name: 'Inventory', icon: Icons.LayoutDashboard, subItems: ['Issue Item'] },
     { name: 'Student CV', icon: Icons.FileText, subItems: ['Student Resume'] },
-    { name: 'Transport', icon: Icons.Building, subItems: ['Routes'] },
     { name: 'Hostel', icon: Icons.Building, subItems: ['Hostel Rooms'] },
     { name: 'Certificate', icon: Icons.FileText, subItems: ['Student Certificate'] },
     { name: 'Front CMS', icon: Icons.Settings, subItems: ['Event', 'Gallery'] },
     { name: 'Alumni', icon: Icons.Users, subItems: ['Manage Alumni'] },
     { name: 'Reports', icon: Icons.BarChart, subItems: ['Student Report'] },
-    { name: 'System Setting', icon: Icons.Settings, subItems: ['General Setting'] },
+    { name: 'System Setting', icon: Icons.Settings, subItems: ['General Setting', 'Theme Setting'] },
   ];
 
   const renderContent = () => {
@@ -227,6 +233,9 @@ export default function Dashboard() {
       case 'Assign Observation': return <CBSEExaminationPages.CBSEAssignObservation />;
       case 'Admit Card': return <CBSEExaminationPages.CBSEAdmitCard />;
       case 'Reports': return <CBSEExaminationPages.CBSEReports />;
+
+      // System Settings
+      case 'Theme Setting': return <SystemSettingsPages.ThemeSettings />;
 
       case 'Dashboard':
 
@@ -309,19 +318,19 @@ export default function Dashboard() {
   return (
     <div className="flex h-screen bg-[#f3f4f6] font-sans">
       {/* Sidebar */}
-      <div className={`${sidebarOpen ? 'w-64' : 'w-20'} bg-[#3b5998] transition-all duration-300 flex flex-col shrink-0 overflow-y-auto`}>
-        <div className="p-4 flex items-center justify-between sticky top-0 bg-[#3b5998] z-10">
-          {sidebarOpen && <div className="font-bold text-lg text-white truncate pr-2">S.D.Taxation Associate</div>}
-          <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-1 hover:bg-white/10 rounded text-white">
+      <div className={`${sidebarOpen ? 'w-64' : 'w-20'} ${themeData.sidebar} transition-all duration-300 flex flex-col shrink-0 overflow-y-auto`}>
+        <div className={`p-4 flex items-center justify-between sticky top-0 ${themeData.sidebar} z-10`}>
+          {sidebarOpen && <div className={`font-bold text-lg ${themeData.sidebarText || 'text-white'} truncate pr-2`}>S.D.Taxation Associate</div>}
+          <button onClick={() => setSidebarOpen(!sidebarOpen)} className={`p-1 hover:bg-black/10 rounded ${themeData.sidebarText || 'text-white'}`}>
             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6" /></svg>
           </button>
         </div>
 
-        {sidebarOpen && <div className="px-4 py-3 text-[10px] font-bold text-blue-200 tracking-wider">MAIN MENU</div>}
+        {sidebarOpen && <div className={`px-4 py-3 text-[10px] font-bold ${themeData.sidebarText ? 'text-gray-500' : 'text-blue-200'} tracking-wider`}>MAIN MENU</div>}
 
         <nav className="flex-1 px-2 py-2 space-y-0.5">
           {menuItems.map((item, idx) => (
-            <SidebarItem key={idx} item={item} sidebarOpen={sidebarOpen} activePage={activePage} setActivePage={setActivePage} />
+            <SidebarItem key={idx} item={item} sidebarOpen={sidebarOpen} activePage={activePage} setActivePage={setActivePage} themeData={themeData} />
           ))}
         </nav>
       </div>
@@ -354,7 +363,7 @@ export default function Dashboard() {
   );
 }
 
-function SidebarItem({ item, sidebarOpen, activePage, setActivePage, isNested = false }) {
+function SidebarItem({ item, sidebarOpen, activePage, setActivePage, themeData, isNested = false }) {
   const [expanded, setExpanded] = useState(false);
   const Icon = item.icon;
 
@@ -380,13 +389,13 @@ function SidebarItem({ item, sidebarOpen, activePage, setActivePage, isNested = 
           }
         }}
         className={`flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors font-semibold ${isActive
-          ? isNested ? 'text-white' : 'bg-white text-[#3b5998]'
-          : 'text-white hover:bg-white/10'
+          ? isNested ? (themeData.sidebarText ? 'text-gray-900' : 'text-white') : `bg-white ${themeData.text}`
+          : (themeData.sidebarText || 'text-white') + ' hover:bg-black/10'
           } ${isNested ? 'py-1.5' : ''}`}
         title={!sidebarOpen ? item.name : undefined}
       >
         <div className="flex items-center">
-          {Icon && <Icon className={`w-5 h-5 flex-shrink-0 stroke-[2.5] ${isActive && !isNested ? 'text-[#3b5998]' : 'text-white'}`} />}
+          {Icon && <Icon className={`w-5 h-5 flex-shrink-0 stroke-[2.5] ${isActive && !isNested ? themeData.text : (themeData.sidebarText || 'text-white')}`} />}
           {sidebarOpen && (
             <span className={`${isNested ? 'text-[13px]' : 'ml-3 text-[14px]'} truncate ${isActive && isNested ? 'font-bold' : ''}`}>
               {item.name}
@@ -394,7 +403,7 @@ function SidebarItem({ item, sidebarOpen, activePage, setActivePage, isNested = 
           )}
         </div>
         {sidebarOpen && item.subItems && (
-          <Icons.ChevronRight className={`w-4 h-4 transition-transform stroke-[3] ${isActive && !isNested ? 'text-[#3b5998]' : 'text-white'} ${expanded ? 'rotate-90' : ''}`} />
+          <Icons.ChevronRight className={`w-4 h-4 transition-transform stroke-[3] ${isActive && !isNested ? themeData.text : (themeData.sidebarText || 'text-white')} ${expanded ? 'rotate-90' : ''}`} />
         )}
       </a>
       {sidebarOpen && expanded && item.subItems && (
@@ -404,7 +413,7 @@ function SidebarItem({ item, sidebarOpen, activePage, setActivePage, isNested = 
               <a
                 key={idx}
                 href={`#/${encodeURIComponent(sub)}`}
-                className={`block text-[13px] py-1.5 transition-colors ${activePage === sub ? 'text-white font-bold' : 'text-blue-100 hover:text-white'}`}
+                className={`block text-[13px] py-1.5 transition-colors ${activePage === sub ? (themeData.sidebarText ? 'text-black font-bold' : 'text-white font-bold') : (themeData.sidebarText ? 'text-gray-600' : 'text-blue-100') + ' hover:text-white'}`}
               >
                 {sub}
               </a>
@@ -415,6 +424,7 @@ function SidebarItem({ item, sidebarOpen, activePage, setActivePage, isNested = 
                 sidebarOpen={sidebarOpen}
                 activePage={activePage}
                 setActivePage={setActivePage}
+                themeData={themeData}
                 isNested={true}
               />
             )
