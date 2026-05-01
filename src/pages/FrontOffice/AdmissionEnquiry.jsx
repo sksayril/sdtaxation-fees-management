@@ -76,7 +76,7 @@ export function AdmissionEnquiry() {
 
   if (showForm) {
     return (
-      <div className="bg-[#f0f2f5] min-h-screen p-4">
+      <div className="bg-white min-h-screen p-4">
         {/* Breadcrumb */}
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center gap-2">
@@ -86,7 +86,7 @@ export function AdmissionEnquiry() {
         </div>
 
         {/* Form Container */}
-        <div className="bg-white border-t-4 border-orange-400 rounded shadow-sm overflow-hidden">
+        <div className="bg-white border border-gray-200 rounded shadow-sm overflow-hidden">
           <div className="px-4 py-3 border-b border-gray-100 flex justify-between items-center bg-white">
             <h3 className="text-gray-700 font-bold text-sm">Enquiry Form</h3>
             <button 
@@ -209,7 +209,7 @@ export function AdmissionEnquiry() {
                   placeholder="Contact No 2."
                   value={formData.contactNo2}
                   onChange={handleInputChange}
-                  className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-500 bg-[#e0ffff]"
+                  className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-500"
                 />
               </div>
 
@@ -394,7 +394,7 @@ export function AdmissionEnquiry() {
               </thead>
               <tbody>
                 {enquiries.map((enq, i) => (
-                  <tr key={i} className={`border-b border-gray-100 hover:bg-gray-50 ${i % 2 !== 0 ? 'bg-[#f4ebeb]' : 'bg-white'}`}>
+                  <tr key={i} className="border-b border-gray-100 hover:bg-gray-50 bg-white">
                     <td className="px-4 py-2.5 text-gray-800">{enq.name}</td>
                     <td className="px-4 py-2.5 text-gray-600">{enq.phone}</td>
                     <td className="px-4 py-2.5 text-gray-600">{enq.source}</td>

@@ -15,6 +15,7 @@ import * as SystemSettingsPages from '../pages/SystemSettings/index';
 export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activePage, setActivePage] = useState('Dashboard Overview');
+  const [focusedModule, setFocusedModule] = useState(null);
   const { themeData } = useTheme();
 
   useEffect(() => {
@@ -155,6 +156,77 @@ export default function Dashboard() {
     { name: 'Reports', icon: Icons.BarChart, subItems: ['Student Report'] },
     { name: 'System Setting', icon: Icons.Settings, subItems: ['General Setting', 'Theme Setting'] },
   ];
+
+  const defaultShortcuts = [
+    { name: 'Receipt', icon: Icons.FileText, page: 'Add Income', key: 'F2' },
+    { name: 'Payment', icon: Icons.Wallet, page: 'Add Expense', key: 'F3' },
+    { name: 'Contra', icon: Icons.ArrowLeftRight, page: 'Contra', key: 'F4' },
+    { name: 'Journal', icon: Icons.Book, page: 'Journal Entry', key: 'F5' },
+    { name: 'Sale', icon: Icons.ShoppingCart, page: 'Sales', key: 'F6' },
+    { name: 'Purchase', icon: Icons.Box, page: 'Purchase', key: 'F7' },
+  ];
+
+  const [currentShortcuts, setCurrentShortcuts] = useState(defaultShortcuts);
+
+  const getPageIcon = (pageName) => {
+    // Special cases for specific pages
+    if (pageName.includes('Admission') || pageName.includes('Registration')) return Icons.FileText;
+    if (pageName.includes('Fees') || pageName.includes('Payment')) return Icons.Wallet;
+    if (pageName.includes('Report')) return Icons.BarChart;
+    if (pageName.includes('Setting')) return Icons.Settings;
+
+    // Find menu item or subitem to get icon
+    for (const item of menuItems) {
+      if (item.name === pageName) return item.icon;
+      if (item.subItems) {
+        const found = item.subItems.find(sub => typeof sub === 'string' ? sub === pageName : sub.name === pageName);
+        if (found) return Icons.FileText;
+      }
+    }
+    return Icons.LayoutDashboard;
+  };
+
+  useEffect(() => {
+    // Determine active module based on either focusedModule or activePage
+    let activeModule = focusedModule;
+    
+    if (!activeModule) {
+      activeModule = menuItems.find(item => 
+        item.name === activePage || 
+        (item.subItems && item.subItems.some(sub => typeof sub === 'string' ? sub === activePage : sub.name === activePage))
+      );
+    }
+
+    if (activeModule && activeModule.subItems && activeModule.name !== 'Dashboard') {
+      const allShortcuts = activeModule.subItems.map((sub, idx) => {
+        const name = typeof sub === 'string' ? sub : sub.name;
+        return {
+          name: name,
+          icon: getPageIcon(name),
+          page: name,
+          key: `F${idx + 1}`
+        };
+      });
+      setCurrentShortcuts(allShortcuts.slice(0, 5));
+    } else {
+      setCurrentShortcuts(defaultShortcuts);
+    }
+  }, [activePage, focusedModule]);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      const shortcut = currentShortcuts.find(s => s.key === e.key);
+      if (shortcut) {
+        e.preventDefault();
+        setActivePage(shortcut.page);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [currentShortcuts]);
+
+  const PageIcon = getPageIcon(activePage);
 
   const renderContent = () => {
     switch (activePage) {
@@ -330,7 +402,16 @@ export default function Dashboard() {
 
         <nav className="flex-1 px-2 py-2 space-y-0.5">
           {menuItems.map((item, idx) => (
-            <SidebarItem key={idx} item={item} sidebarOpen={sidebarOpen} activePage={activePage} setActivePage={setActivePage} themeData={themeData} />
+            <SidebarItem 
+              key={idx} 
+              item={item} 
+              sidebarOpen={sidebarOpen} 
+              activePage={activePage} 
+              setActivePage={setActivePage} 
+              themeData={themeData} 
+              onFocus={() => setFocusedModule(item)}
+              currentShortcuts={currentShortcuts}
+            />
           ))}
         </nav>
       </div>
@@ -339,13 +420,36 @@ export default function Dashboard() {
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Top Header */}
         <header className="bg-white h-16 border-b border-gray-200 flex items-center justify-between px-6 shrink-0 shadow-sm">
-          <h1 className="text-xl font-bold text-gray-800">{activePage === 'Dashboard Overview' ? 'Dashboard' : activePage}</h1>
+          <div className="flex items-center gap-6">
+            <div className={`p-2 rounded-lg ${themeData.sidebar} text-white`}>
+              <PageIcon className="w-5 h-5" />
+            </div>
+
+            {/* Shortcut Bar */}
+            <div className="hidden lg:flex items-center gap-2">
+              {currentShortcuts.map((shortcut, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setActivePage(shortcut.page)}
+                  className={`flex items-center gap-1.5 ${themeData.primary || 'bg-[#4285f4]'} text-white px-3 py-1.5 rounded text-sm font-medium hover:opacity-90 transition-all shadow-sm group whitespace-nowrap`}
+                  title={`Shortcut: ${shortcut.key}`}
+                >
+                  <shortcut.icon className="w-3.5 h-3.5" />
+                  <span>{shortcut.name}</span>
+                  <span className="text-[10px] opacity-60 font-bold bg-white/20 px-1 rounded">{shortcut.key}</span>
+                </button>
+              ))}
+              {/* Show 'More' if it's a module with many items */}
+              {focusedModule && focusedModule.subItems && focusedModule.subItems.length > 5 && (
+                <button className="flex items-center gap-1.5 bg-gray-100 text-gray-600 px-3 py-1.5 rounded text-sm font-medium hover:bg-gray-200 transition-all">
+                  <Icons.MoreHorizontal className="w-4 h-4" />
+                  <span>More</span>
+                </button>
+              )}
+            </div>
+          </div>
 
           <div className="flex items-center gap-6">
-            <div className="flex items-center text-sm text-gray-600 gap-2">
-              <Icons.Calendar className="w-4 h-4" />
-              <span>28/Apr/26</span>
-            </div>
             <div className="flex items-center text-sm text-gray-700 gap-2 cursor-pointer hover:text-gray-900">
               <Icons.User className="w-4 h-4" />
               <span className="font-medium">S. D. Taxation</span>
@@ -363,7 +467,7 @@ export default function Dashboard() {
   );
 }
 
-function SidebarItem({ item, sidebarOpen, activePage, setActivePage, themeData, isNested = false }) {
+function SidebarItem({ item, sidebarOpen, activePage, setActivePage, themeData, isNested = false, onFocus, currentShortcuts = [] }) {
   const [expanded, setExpanded] = useState(false);
   const Icon = item.icon;
 
@@ -386,6 +490,7 @@ function SidebarItem({ item, sidebarOpen, activePage, setActivePage, themeData, 
           if (item.subItems) {
             e.preventDefault();
             setExpanded(!expanded);
+            if (onFocus) onFocus();
           }
         }}
         className={`flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors font-semibold ${isActive
@@ -408,18 +513,30 @@ function SidebarItem({ item, sidebarOpen, activePage, setActivePage, themeData, 
       </a>
       {sidebarOpen && expanded && item.subItems && (
         <div className={`${isNested ? 'pl-4' : 'pl-10'} pr-3 py-1 space-y-0.5 border-l ${themeData.sidebarText ? 'border-gray-200' : 'border-white/10'} ml-6`}>
-          {item.subItems.map((sub, idx) => (
-            typeof sub === 'string' ? (
+          {item.subItems.map((sub, idx) => {
+            const subName = typeof sub === 'string' ? sub : sub.name;
+            const shortcut = currentShortcuts.find(s => s.page === subName);
+            
+            return typeof sub === 'string' ? (
               <a
                 key={idx}
                 href={`#/${encodeURIComponent(sub)}`}
-                className={`block text-[13px] py-2 px-3 rounded-md transition-all duration-200 ${
+                className={`flex items-center justify-between text-[13px] py-2 px-3 rounded-md transition-all duration-200 ${
                   activePage === sub 
                     ? (themeData.sidebarText ? 'bg-indigo-50 text-indigo-700 font-bold shadow-sm' : 'bg-white/20 text-white font-bold') 
                     : (themeData.sidebarText ? 'text-gray-500 hover:bg-gray-50 hover:text-gray-900' : 'text-blue-100 hover:bg-white/10 hover:text-white')
                 }`}
               >
-                {sub}
+                <span>{sub}</span>
+                {shortcut && (
+                  <span className={`text-[10px] px-1 rounded font-bold ${
+                    activePage === sub 
+                      ? (themeData.sidebarText ? 'bg-indigo-200 text-indigo-800' : 'bg-white/30 text-white')
+                      : (themeData.sidebarText ? 'bg-gray-200 text-gray-600' : 'bg-white/10 text-blue-200')
+                  }`}>
+                    {shortcut.key}
+                  </span>
+                )}
               </a>
             ) : (
               <SidebarItem
@@ -430,9 +547,10 @@ function SidebarItem({ item, sidebarOpen, activePage, setActivePage, themeData, 
                 setActivePage={setActivePage}
                 themeData={themeData}
                 isNested={true}
+                currentShortcuts={currentShortcuts}
               />
-            )
-          ))}
+            );
+          })}
         </div>
       )}
     </div>
