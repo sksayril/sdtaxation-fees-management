@@ -170,7 +170,7 @@ export default function Dashboard() {
       // Student Information
       case 'Student Registration': return <StudentInformationPages.StudentRegistration />;
       case 'Student Admission': return <StudentInformationPages.StudentAdmission />;
-      case 'Student Details': return <StudentInformationPages.StudentDetails />;
+      case 'Student Profile': return <StudentInformationPages.StudentDetails />;
       case 'Online Admission': return <StudentInformationPages.OnlineAdmission />;
       case 'Disabled Students': return <StudentInformationPages.DisabledStudents />;
       case 'Multi Class Student': return <StudentInformationPages.MultiClassStudent />;
@@ -407,13 +407,17 @@ function SidebarItem({ item, sidebarOpen, activePage, setActivePage, themeData, 
         )}
       </a>
       {sidebarOpen && expanded && item.subItems && (
-        <div className={`${isNested ? 'pl-4' : 'pl-11'} pr-3 py-1 space-y-1`}>
+        <div className={`${isNested ? 'pl-4' : 'pl-10'} pr-3 py-1 space-y-0.5 border-l ${themeData.sidebarText ? 'border-gray-200' : 'border-white/10'} ml-6`}>
           {item.subItems.map((sub, idx) => (
             typeof sub === 'string' ? (
               <a
                 key={idx}
                 href={`#/${encodeURIComponent(sub)}`}
-                className={`block text-[13px] py-1.5 transition-colors ${activePage === sub ? (themeData.sidebarText ? 'text-black font-bold' : 'text-white font-bold') : (themeData.sidebarText ? 'text-gray-600' : 'text-blue-100') + ' hover:text-white'}`}
+                className={`block text-[13px] py-2 px-3 rounded-md transition-all duration-200 ${
+                  activePage === sub 
+                    ? (themeData.sidebarText ? 'bg-indigo-50 text-indigo-700 font-bold shadow-sm' : 'bg-white/20 text-white font-bold') 
+                    : (themeData.sidebarText ? 'text-gray-500 hover:bg-gray-50 hover:text-gray-900' : 'text-blue-100 hover:bg-white/10 hover:text-white')
+                }`}
               >
                 {sub}
               </a>
