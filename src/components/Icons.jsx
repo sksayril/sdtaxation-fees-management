@@ -53,5 +53,10 @@ export const Icons = {
   ShoppingCart: (p) => <SvgIcon {...p}><circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" /><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" /></SvgIcon>,
   Box: (p) => <SvgIcon {...p}><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" /><polyline points="3.27 6.96 12 12.01 20.73 6.96" /><line x1="12" y1="22.08" x2="12" y2="12" /></SvgIcon>,
   Book: (p) => <SvgIcon {...p}><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" /></SvgIcon>,
-  ArrowLeftRight: (p) => <SvgIcon {...p}><path d="M8 7 3 12l5 5" /><path d="M21 12H3" /><path d="M16 17l5-5-5-5" /></SvgIcon>
+  ArrowLeftRight: (p) => <SvgIcon {...p}><path d="M8 7 3 12l5 5" /><path d="M21 12H3" /><path d="M16 17l5-5-5-5" /></SvgIcon>,
+  Truck: (p) => <SvgIcon {...p}><rect width="7" height="10" x="14" y="9" /><path d="M14 13h1" /><path d="M15 13v4" /><path d="M3 17h11" /><path d="M14 9h-1" /><path d="M13 9H2V6h11z" /><circle cx="7" cy="18" r="2" /><circle cx="17" cy="18" r="2" /></SvgIcon>,
+  Globe: (p) => <SvgIcon {...p}><circle cx="12" cy="12" r="10" /><line x1="2" x2="22" y1="12" y2="12" /><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" /></SvgIcon>,
+  MapPin: (p) => <SvgIcon {...p}><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" /></SvgIcon>,
+  Copy: (p) => <SvgIcon {...p}><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></SvgIcon>,
+  Edit: (p) => <SvgIcon {...p}><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" /></SvgIcon>
 };

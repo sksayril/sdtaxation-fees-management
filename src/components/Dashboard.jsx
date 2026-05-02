@@ -10,6 +10,8 @@ import * as IncomePages from '../pages/Income/index';
 import * as ExpensePages from '../pages/Expenses/index';
 import * as AccountsPages from '../pages/Accounts/index';
 import * as CBSEExaminationPages from '../pages/CBSEExamination/index';
+import * as TransportPages from '../pages/Transport/index';
+import * as AcademicsPages from '../pages/Academics/index';
 import * as SystemSettingsPages from '../pages/SystemSettings/index';
 
 export default function Dashboard() {
@@ -95,9 +97,34 @@ export default function Dashboard() {
         'Purchase'
       ]
     },
-    { name: 'Transport', icon: Icons.Building, subItems: ['Routes'] },
+    {
+      name: 'Transport',
+      icon: Icons.Truck,
+      subItems: [
+        'Fees Master',
+        'Pickup Point',
+        'Routes',
+        'Vehicles',
+        'Assign Vehicle',
+        'Route Pickup Point',
+        'Student Transport Fees'
+      ]
+    },
 
-    { name: 'Academics', icon: Icons.Briefcase, subItems: ['Class Timetable'] },
+    {
+      name: 'Academics',
+      icon: Icons.Briefcase,
+      subItems: [
+        'Class Timetable',
+        'Teachers Timetable',
+        'Assign Class Teacher',
+        'Promote Students',
+        'Subject Group',
+        'Subjects',
+        'Class',
+        'Sections'
+      ]
+    },
 
     {
       name: 'Online Course',
@@ -157,17 +184,6 @@ export default function Dashboard() {
     { name: 'System Setting', icon: Icons.Settings, subItems: ['General Setting', 'Theme Setting'] },
   ];
 
-  const defaultShortcuts = [
-    { name: 'Receipt', icon: Icons.FileText, page: 'Add Income', key: 'F2' },
-    { name: 'Payment', icon: Icons.Wallet, page: 'Add Expense', key: 'F3' },
-    { name: 'Contra', icon: Icons.ArrowLeftRight, page: 'Contra', key: 'F4' },
-    { name: 'Journal', icon: Icons.Book, page: 'Journal Entry', key: 'F5' },
-    { name: 'Sale', icon: Icons.ShoppingCart, page: 'Sales', key: 'F6' },
-    { name: 'Purchase', icon: Icons.Box, page: 'Purchase', key: 'F7' },
-  ];
-
-  const [currentShortcuts, setCurrentShortcuts] = useState(defaultShortcuts);
-
   const getPageIcon = (pageName) => {
     // Special cases for specific pages
     if (pageName.includes('Admission') || pageName.includes('Registration')) return Icons.FileText;
@@ -185,46 +201,6 @@ export default function Dashboard() {
     }
     return Icons.LayoutDashboard;
   };
-
-  useEffect(() => {
-    // Determine active module based on either focusedModule or activePage
-    let activeModule = focusedModule;
-    
-    if (!activeModule) {
-      activeModule = menuItems.find(item => 
-        item.name === activePage || 
-        (item.subItems && item.subItems.some(sub => typeof sub === 'string' ? sub === activePage : sub.name === activePage))
-      );
-    }
-
-    if (activeModule && activeModule.subItems && activeModule.name !== 'Dashboard') {
-      const allShortcuts = activeModule.subItems.map((sub, idx) => {
-        const name = typeof sub === 'string' ? sub : sub.name;
-        return {
-          name: name,
-          icon: getPageIcon(name),
-          page: name,
-          key: `F${idx + 1}`
-        };
-      });
-      setCurrentShortcuts(allShortcuts.slice(0, 5));
-    } else {
-      setCurrentShortcuts(defaultShortcuts);
-    }
-  }, [activePage, focusedModule]);
-
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      const shortcut = currentShortcuts.find(s => s.key === e.key);
-      if (shortcut) {
-        e.preventDefault();
-        setActivePage(shortcut.page);
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentShortcuts]);
 
   const PageIcon = getPageIcon(activePage);
 
@@ -283,6 +259,24 @@ export default function Dashboard() {
       case 'Add Income': return <IncomePages.AddIncome />;
       case 'Search Income': return <IncomePages.SearchIncome />;
       case 'Income Head': return <IncomePages.IncomeHead />;
+
+      // Transport
+      case 'Pickup Point': return <TransportPages.PickupPoint />;
+      case 'Routes': return <TransportPages.Routes />;
+      case 'Vehicles': return <TransportPages.Vehicles />;
+      case 'Assign Vehicle': return <TransportPages.AssignVehicle />;
+      case 'Route Pickup Point': return <TransportPages.RoutePickupPoint />;
+      case 'Student Transport Fees': return <TransportPages.StudentTransportFees />;
+      case 'Teachers Timetable':
+      case 'Assign Class Teacher':
+      case 'Promote Students':
+      case 'Subject Group':
+      case 'Subjects':
+      case 'Class':
+      case 'Sections':
+      case 'Class Timetable': return <AcademicsPages.ClassTimetable />;
+      case 'Teachers Timetable': return <AcademicsPages.TeacherTimetable />;
+      case 'Assign Class Teacher': return <AcademicsPages.AssignClassTeacher />;
 
       // Expenses
       case 'Add Expense': return <ExpensePages.AddExpense />;
@@ -410,7 +404,6 @@ export default function Dashboard() {
               setActivePage={setActivePage} 
               themeData={themeData} 
               onFocus={() => setFocusedModule(item)}
-              currentShortcuts={currentShortcuts}
             />
           ))}
         </nav>
@@ -419,40 +412,108 @@ export default function Dashboard() {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Top Header */}
-        <header className="bg-white h-16 border-b border-gray-200 flex items-center justify-between px-6 shrink-0 shadow-sm">
-          <div className="flex items-center gap-6">
-            <div className={`p-2 rounded-lg ${themeData.sidebar} text-white`}>
+        <header className="bg-white h-16 border-b border-gray-200 flex items-center justify-between px-6 shrink-0 shadow-sm z-20">
+          <div className="flex items-center gap-4 flex-1">
+            <div className={`p-2 rounded-lg ${themeData.sidebar} ${themeData.sidebarText ? 'text-gray-800 border border-gray-200' : 'text-white'}`}>
               <PageIcon className="w-5 h-5" />
             </div>
 
-            {/* Shortcut Bar */}
-            <div className="hidden lg:flex items-center gap-2">
-              {currentShortcuts.map((shortcut, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setActivePage(shortcut.page)}
-                  className={`flex items-center gap-1.5 ${themeData.primary || 'bg-[#4285f4]'} text-white px-3 py-1.5 rounded text-sm font-medium hover:opacity-90 transition-all shadow-sm group whitespace-nowrap`}
-                  title={`Shortcut: ${shortcut.key}`}
-                >
-                  <shortcut.icon className="w-3.5 h-3.5" />
-                  <span>{shortcut.name}</span>
-                  <span className="text-[10px] opacity-60 font-bold bg-white/20 px-1 rounded">{shortcut.key}</span>
-                </button>
-              ))}
-              {/* Show 'More' if it's a module with many items */}
-              {focusedModule && focusedModule.subItems && focusedModule.subItems.length > 5 && (
-                <button className="flex items-center gap-1.5 bg-gray-100 text-gray-600 px-3 py-1.5 rounded text-sm font-medium hover:bg-gray-200 transition-all">
-                  <Icons.MoreHorizontal className="w-4 h-4" />
-                  <span>More</span>
-                </button>
-              )}
+            {/* Dynamic Shortcuts Bar (Context-aware) */}
+            <div className="flex items-center gap-1.5 ml-2 overflow-x-auto no-scrollbar">
+              {/* Eye Button (Common) */}
+              <button className="p-2 rounded border border-gray-300 bg-white hover:bg-gray-50 transition shadow-sm" title="View">
+                <Icons.Eye className="w-4 h-4 text-gray-700" />
+              </button>
+
+              {/* Search Button (Common) */}
+              <button className="p-2 rounded border border-gray-300 bg-white hover:bg-gray-50 transition shadow-sm" title="Search">
+                <Icons.Search className="w-4 h-4 text-gray-700" />
+              </button>
+
+              {/* Financial Year Selection (Common) */}
+              <div className="relative">
+                <select className="appearance-none bg-white border border-gray-300 rounded px-4 py-1.5 pr-8 text-sm font-bold text-gray-700 outline-none focus:border-blue-500 shadow-sm cursor-pointer font-serif">
+                  <option>2025 - 26</option>
+                  <option>2024 - 25</option>
+                </select>
+                <Icons.ChevronDown className="w-3.5 h-3.5 absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" />
+              </div>
+
+              <div className="h-6 w-[1px] bg-gray-200 mx-1"></div>
+
+              {/* Module-Specific Shortcuts */}
+              {(() => {
+                const moduleName = focusedModule?.name || 'Dashboard';
+                let shortcuts = [];
+
+                switch (moduleName) {
+                  case 'Accounts':
+                    shortcuts = [
+                      { name: 'Receipt', key: 'F1', icon: Icons.FileText, page: 'Add Income', color: 'text-indigo-600' },
+                      { name: 'Payment', key: 'F2', icon: Icons.Wallet, page: 'Add Expense', color: 'text-orange-500' },
+                      { name: 'Contra', key: 'F3', icon: Icons.ArrowLeftRight, page: 'Contra', color: 'text-blue-500' },
+                    ];
+                    break;
+                  case 'Student Management':
+                    shortcuts = [
+                      { name: 'Admission', key: 'F1', icon: Icons.UserPlus, page: 'Student Admission', color: 'text-green-600' },
+                      { name: 'Profile', key: 'F2', icon: Icons.User, page: 'Student Profile', color: 'text-blue-600' },
+                      { name: 'Online', key: 'F3', icon: Icons.Globe, page: 'Online Admission', color: 'text-purple-500' },
+                    ];
+                    break;
+                  case 'Fees Collection':
+                    shortcuts = [
+                      { name: 'Collect', key: 'F1', icon: Icons.Wallet, page: 'Collect Fees', color: 'text-indigo-600' },
+                      { name: 'Due Fees', key: 'F2', icon: Icons.BarChart, page: 'Search Due Fees', color: 'text-red-500' },
+                      { name: 'Master', key: 'F3', icon: Icons.Settings, page: 'Fees Master', color: 'text-gray-600' },
+                    ];
+                    break;
+                  case 'Transport':
+                    shortcuts = [
+                      { name: 'Pickup', key: 'F1', icon: Icons.MapPin, page: 'Pickup Point', color: 'text-orange-500' },
+                      { name: 'Routes', key: 'F2', icon: Icons.Truck, page: 'Routes', color: 'text-blue-500' },
+                      { name: 'Vehicles', key: 'F3', icon: Icons.Truck, page: 'Vehicles', color: 'text-green-600' },
+                    ];
+                    break;
+                  case 'Academics':
+                    shortcuts = [
+                      { name: 'Timetable', key: 'F1', icon: Icons.Calendar, page: 'Class Timetable', color: 'text-blue-600' },
+                      { name: 'Subjects', key: 'F2', icon: Icons.Book, page: 'Subjects', color: 'text-indigo-600' },
+                      { name: 'Class', key: 'F3', icon: Icons.Building, page: 'Class', color: 'text-orange-500' },
+                    ];
+                    break;
+                  default:
+                    shortcuts = [
+                      { name: 'Receipt', key: 'F1', icon: Icons.FileText, page: 'Add Income', color: 'text-indigo-600' },
+                      { name: 'Payment', key: 'F2', icon: Icons.Wallet, page: 'Add Expense', color: 'text-orange-500' },
+                      { name: 'Contra', key: 'F3', icon: Icons.ArrowLeftRight, page: 'Contra', color: 'text-blue-500' },
+                    ];
+                }
+
+                return shortcuts.map((s, idx) => (
+                  <button 
+                    key={idx}
+                    onClick={() => setActivePage(s.page)}
+                    className="flex items-center gap-2 px-4 py-1.5 rounded border border-gray-300 bg-white hover:bg-gray-50 transition shadow-sm group"
+                  >
+                    <s.icon className={`w-4 h-4 ${s.color} group-hover:scale-110 transition-transform`} />
+                    <span className="text-[13px] font-bold text-gray-700 font-serif">{s.name}</span>
+                  </button>
+                ));
+              })()}
+
+              {/* More Button (Image 2) */}
+              <button className="flex items-center gap-1.5 bg-gray-100 text-gray-600 px-3 py-1.5 rounded text-sm font-bold hover:bg-gray-200 transition-all border border-gray-200">
+                <Icons.MoreHorizontal className="w-4 h-4" />
+                <span className="font-serif">More</span>
+              </button>
             </div>
           </div>
 
           <div className="flex items-center gap-6">
-            <div className="flex items-center text-sm text-gray-700 gap-2 cursor-pointer hover:text-gray-900">
-              <Icons.User className="w-4 h-4" />
-              <span className="font-medium">S. D. Taxation</span>
+            <div className="flex items-center text-sm text-gray-700 gap-2 cursor-pointer hover:text-gray-900 bg-gray-50 px-3 py-1.5 rounded-full border border-gray-200 shadow-sm">
+              <Icons.User className="w-4 h-4 text-indigo-600" />
+              <span className="font-bold">S. D. Taxation</span>
               <Icons.ChevronDown className="w-4 h-4" />
             </div>
           </div>
@@ -467,7 +528,7 @@ export default function Dashboard() {
   );
 }
 
-function SidebarItem({ item, sidebarOpen, activePage, setActivePage, themeData, isNested = false, onFocus, currentShortcuts = [] }) {
+function SidebarItem({ item, sidebarOpen, activePage, setActivePage, themeData, isNested = false, onFocus }) {
   const [expanded, setExpanded] = useState(false);
   const Icon = item.icon;
 
@@ -493,16 +554,16 @@ function SidebarItem({ item, sidebarOpen, activePage, setActivePage, themeData, 
             if (onFocus) onFocus();
           }
         }}
-        className={`flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors font-semibold ${isActive
-          ? isNested ? (themeData.sidebarText ? 'text-gray-900' : 'text-white') : `bg-white ${themeData.text}`
-          : (themeData.sidebarText || 'text-white') + ' hover:bg-black/10'
+        className={`flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors font-semibold ${isActive || expanded
+          ? isNested ? (themeData.sidebarText ? 'text-indigo-700' : 'text-white') : `bg-white ${themeData.text}`
+          : (themeData.sidebarText || 'text-white') + ` ${themeData.hover || 'hover:bg-black/10'}`
           } ${isNested ? 'py-1.5' : ''}`}
         title={!sidebarOpen ? item.name : undefined}
       >
         <div className="flex items-center">
-          {Icon && <Icon className={`w-5 h-5 flex-shrink-0 stroke-[2.5] ${isActive && !isNested ? themeData.text : (themeData.sidebarText || 'text-white')}`} />}
+          {Icon && <Icon className={`w-5 h-5 flex-shrink-0 stroke-[2.5] ${isActive || expanded ? themeData.text : (themeData.sidebarText || 'text-white')}`} />}
           {sidebarOpen && (
-            <span className={`${isNested ? 'text-[13px]' : 'ml-3 text-[14px]'} truncate ${isActive && isNested ? 'font-bold' : ''}`}>
+            <span className={`${isNested ? 'text-[14px]' : 'ml-3 text-[15px]'} truncate ${(isActive || expanded) ? 'font-bold' : ''}`}>
               {item.name}
             </span>
           )}
@@ -514,29 +575,17 @@ function SidebarItem({ item, sidebarOpen, activePage, setActivePage, themeData, 
       {sidebarOpen && expanded && item.subItems && (
         <div className={`${isNested ? 'pl-4' : 'pl-10'} pr-3 py-1 space-y-0.5 border-l ${themeData.sidebarText ? 'border-gray-200' : 'border-white/10'} ml-6`}>
           {item.subItems.map((sub, idx) => {
-            const subName = typeof sub === 'string' ? sub : sub.name;
-            const shortcut = currentShortcuts.find(s => s.page === subName);
-            
             return typeof sub === 'string' ? (
               <a
                 key={idx}
                 href={`#/${encodeURIComponent(sub)}`}
-                className={`flex items-center justify-between text-[13px] py-2 px-3 rounded-md transition-all duration-200 ${
+                className={`flex items-center justify-between text-[14px] py-2 px-3 rounded-md transition-all duration-200 ${
                   activePage === sub 
                     ? (themeData.sidebarText ? 'bg-indigo-50 text-indigo-700 font-bold shadow-sm' : 'bg-white/20 text-white font-bold') 
-                    : (themeData.sidebarText ? 'text-gray-500 hover:bg-gray-50 hover:text-gray-900' : 'text-blue-100 hover:bg-white/10 hover:text-white')
+                    : (themeData.sidebarText ? 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' : 'text-blue-100 hover:bg-white/10 hover:text-white')
                 }`}
               >
                 <span>{sub}</span>
-                {shortcut && (
-                  <span className={`text-[10px] px-1 rounded font-bold ${
-                    activePage === sub 
-                      ? (themeData.sidebarText ? 'bg-indigo-200 text-indigo-800' : 'bg-white/30 text-white')
-                      : (themeData.sidebarText ? 'bg-gray-200 text-gray-600' : 'bg-white/10 text-blue-200')
-                  }`}>
-                    {shortcut.key}
-                  </span>
-                )}
               </a>
             ) : (
               <SidebarItem
@@ -547,7 +596,6 @@ function SidebarItem({ item, sidebarOpen, activePage, setActivePage, themeData, 
                 setActivePage={setActivePage}
                 themeData={themeData}
                 isNested={true}
-                currentShortcuts={currentShortcuts}
               />
             );
           })}
